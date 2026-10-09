@@ -8,8 +8,7 @@
 ==/UserStyle== */
 
 @-moz-document domain("mail.proton.me") {
-
-    /* =============================================================
+/* =============================================================
        PROTON MAIL – FROSTED GLASS
        Main layout and colours. For a background photo, also
        install "Proton Mail – Frosted Glass: Background Photo".
@@ -27,6 +26,7 @@
          10. Sidebar
          11. Top-right controls
          12. Opened email
+         13. Composer
        ============================================================= */
 
 
@@ -323,4 +323,28 @@
         background-image: none !important;
     }
 
-}
+
+    /* =============================================================
+       13. COMPOSER
+       Reply / new-message window.
+       ============================================================= */
+
+    /* Title bar in Proton purple. Needed because the layout shell
+       clears every <header> background. */
+    header.composer-title-bar {
+        --text-norm: #ffffff;
+        --text-weak: rgba(255, 255, 255, 0.80);
+        background: #6d4aff !important;
+        color: #ffffff !important;
+    }
+
+    /* Editor (its own frame): keep it white, including the bar
+       holding the collapsed earlier messages. The :not(:has(#root))
+       guard stops this ever applying to the main page. */
+    html:not(:has(#root)):has(#proton-editor-toggle-container),
+    html:not(:has(#root)):has(#proton-editor-toggle-container) body,
+    #proton-editor-toggle-container {
+        background: #ffffff !important;
+        background-image: none !important;
+    }
+} 
