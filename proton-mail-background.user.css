@@ -1,0 +1,83 @@
+/* ==UserStyle==
+@name         Proton Mail – Frosted Glass: Background Photo
+@namespace    protonmail.frostedglass.background
+@version      1.0.0
+@description  Add-on for "Proton Mail – Frosted Glass". Lets you use your own photo as the background. Edit this style to add a picture (instructions inside).
+@author       Nebulastarshipcygnus
+@license      MIT
+==/UserStyle== */
+
+/* =============================================================
+   HOW TO ADD YOUR OWN PICTURE
+   -------------------------------------------------------------
+   This add-on only supplies a photo. "Proton Mail – Frosted
+   Glass" must also be installed; it positions the photo and
+   shows its own gradient whenever no photo is set.
+
+   Until you add a picture, this style does nothing.
+
+   IMPORTANT – UPDATES
+   -------------------------------------------------------------
+   If you customise this stylesheet with your own photograph,
+   keep a backup of the modified code. Installing an updated
+   version may overwrite your image.
+
+
+   1. PREPARE THE IMAGE
+      - Landscape, roughly 2560 px wide (1920 px is fine for
+        smaller screens).
+      - Save as WebP or JPEG, ideally under 400 KB. Large files
+        make Proton slower to load.
+      - Darker or mid-tone images work best: the sidebar and
+        top-right text are white.
+
+   2. CONVERT IT TO TEXT (base64)
+      Run one of these on your own computer. It copies the
+      result to your clipboard.
+
+      Windows (PowerShell):
+        [Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\path\to\photo.webp")) | Set-Clipboard
+
+      macOS (Terminal):
+        base64 -i photo.webp | pbcopy
+
+      Linux (Terminal):
+        base64 -w0 photo.webp | xclip -selection clipboard
+
+      Online "image to base64" converters work too, but they
+      upload your picture to someone else's server.
+
+   3. PASTE IT BELOW
+      - In Stylus, open this style for editing.
+      - In the line marked "EDIT THIS LINE", replace
+            none
+        with
+            url("data:image/webp;base64,PASTE_HERE")
+      - Use image/jpeg instead of image/webp for a JPEG.
+      - Save. The Stylus editor may be slow with a large image;
+        that is normal.
+
+   ALTERNATIVE: LINK TO AN IMAGE ONLINE
+      You can use a web address instead:
+            url("https://example.com/photo.jpg")
+      This is shorter, but:
+      - Proton's security policy may block images from other
+        sites (check the browser console for a
+        "Content-Security-Policy" error).
+      - Your browser contacts that site every time you open
+        Proton, which reveals your IP address to it.
+      Embedding the image (steps 1–3) avoids both problems.
+
+   SEVERAL PICTURES
+      Install a copy of this style for each picture, give each a
+      different @name and @namespace, and turn on only one at a
+      time. With all of them off, the gradient shows.
+   ============================================================= */
+
+@-moz-document domain("mail.proton.me") {
+
+    :root {
+        --g-bg-photo: none;   /* EDIT THIS LINE */
+    }
+
+}

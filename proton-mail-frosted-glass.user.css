@@ -1,0 +1,301 @@
+/* ==UserStyle==
+@name         Proton Mail – Frosted Glass
+@namespace    protonmail.frostedglass
+@version      1.0.0
+@description  A softer look for Proton Mail: frosted inbox card, transparent sidebar with white text, rounded search bar, and an optional background photo.
+@author       Nebulastarshipcygnus
+@license      MIT
+==/UserStyle== */
+
+@-moz-document domain("mail.proton.me") {
+
+    /* =============================================================
+       PROTON MAIL – FROSTED SKIN
+       Main layout and colours. The background photo lives in its
+       own Stylus style ("Proton Mail – Background image").
+
+       Contents
+         1.  Tokens
+         2.  Background
+         3.  Proton theme variables
+         4.  Layout shell
+         5.  Inbox card
+         6.  Message rows
+         7.  Row checkboxes
+         8.  Search bar
+         9.  Sidebar
+         10. Top-right controls
+         11. Opened email
+       ============================================================= */
+
+
+    /* =============================================================
+       1. TOKENS
+       Adjust the look here rather than in the rules below.
+       ============================================================= */
+
+    :root {
+        --g-radius:        16px;
+        --g-panel:         rgba(255, 255, 255, 0.5);    /* inbox card     */
+        --g-row-read:      rgba(110, 110, 110, 0.12);
+        --g-row-unread:    rgba(255, 255, 255, 0.26);
+        --g-row-divider:   rgba(60, 64, 67, 0.08);
+        --g-nav-active:    rgba(211, 227, 253, 0.85);   /* not used yet   */
+        --g-nav-hover:     rgba(255, 255, 255, 0.35);   /* not used yet   */
+        --g-accent:        #4630a6;                     /* button text    */
+        --g-hover-shadow:
+            inset  1px 0 0 rgba(60, 64, 67, 0.15),
+            inset -1px 0 0 rgba(60, 64, 67, 0.15),
+            0 1px 2px 0   rgba(60, 64, 67, 0.30),
+            0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    }
+
+
+    /* =============================================================
+       2. BACKGROUND
+       The photo comes from the separate "Proton Mail – Background
+       image" style as --g-bg-photo. If that style is off, the
+       photo layer is empty and the gradient underneath shows.
+       ============================================================= */
+
+    html,
+    body,
+    #root {
+        background:
+            var(--g-bg-photo, none) center / cover no-repeat fixed,
+            linear-gradient(135deg, #6f97b8, #a87596) fixed !important;
+    }
+
+
+    /* =============================================================
+       3. PROTON THEME VARIABLES
+       Clears Proton's own surfaces so the background shows through.
+       ============================================================= */
+
+    .ui-standard,
+    .ui-prominent {
+        --border-weak:                        transparent;
+        --background-norm:                    transparent;
+        --background-lowered:                 transparent;
+        --background-weak:                    transparent;
+        --sidebar-background-color:           transparent;
+        --header-background-color:            transparent;
+        --toolbar-background-color:           transparent;
+        --email-item-read-background-color:   var(--g-row-read);
+        --email-item-unread-background-color: var(--g-row-unread);
+    }
+
+
+    /* =============================================================
+       4. LAYOUT SHELL
+       ============================================================= */
+
+    /* Transparent outer containers */
+    #root > div,
+    header,
+    .main-area-border {
+        background-color: transparent !important;
+        background-image: none !important;
+    }
+
+    /* Spacing around the inbox card */
+    .main-area-border {
+        box-sizing: border-box !important;
+        padding: 14px 16px 16px 14px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Transparent navigation areas */
+    aside,
+    nav,
+    [role="navigation"] {
+        background: transparent !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    /* Remove dividers between layout areas */
+    .mail-toolbar,
+    body > #root header,
+    .sidebar,
+    .main-area-border {
+        border-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .sidebar {
+        border-right: 0 !important;
+    }
+
+
+    /* =============================================================
+       5. INBOX CARD
+       Toolbar and message list as one rounded, frosted panel.
+       ============================================================= */
+
+    .main-area-border > div:first-child {
+        background: var(--g-panel) !important;
+        backdrop-filter: blur(14px) saturate(140%);
+        border-radius: var(--g-radius) !important;
+        overflow: hidden !important;
+    }
+
+
+    /* =============================================================
+       6. MESSAGE ROWS
+       ============================================================= */
+
+    .item-container,
+    .item-container-row {
+        border-bottom: 1px solid var(--g-row-divider) !important;
+        border-radius: 0 !important;
+        transition: box-shadow 0.12s ease;
+    }
+
+    /* Hover: row lifts with a soft shadow */
+    .item-container:hover,
+    .item-container-row:hover {
+        box-shadow: var(--g-hover-shadow) !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Selected / checked rows */
+    .item-container.item-is-selected,
+    .item-container-row.item-is-selected,
+    .item-container[aria-selected="true"] {
+        background: rgba(194, 219, 255, 0.75) !important;
+    }
+
+
+    /* =============================================================
+       7. ROW CHECKBOXES
+       Sender initials become a plain outline when idle.
+       Hover, keyboard focus and checked states are left to Proton.
+       ============================================================= */
+
+    .item-checkbox:not(:checked):not(:hover):not(:focus-visible) + .item-icon {
+        background: transparent !important;
+        box-shadow: inset 0 0 0 1.5px rgba(60, 64, 67, 0.45);
+    }
+
+    .item-checkbox:not(:checked):not(:hover):not(:focus-visible) + .item-icon .item-abbr {
+        visibility: hidden;
+    }
+
+
+    /* =============================================================
+       8. SEARCH BAR
+       ============================================================= */
+
+    header .input {
+        min-height: 40px;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        background: rgba(255, 255, 255, 0.55) !important;
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        border-radius: 24px !important;
+        backdrop-filter: blur(10px);
+        box-shadow: none !important;
+        transition: background 0.15s, box-shadow 0.15s;
+    }
+
+    header .input:focus-within {
+        background: #ffffff !important;
+        box-shadow:
+            0 1px 1px     rgba(65, 69, 73, 0.30),
+            0 1px 3px 1px rgba(65, 69, 73, 0.15) !important;
+    }
+
+
+    /* =============================================================
+       9. SIDEBAR
+       ============================================================= */
+
+    /* White text for reading over the background image */
+    .sidebar {
+        --text-norm: #ffffff;
+        --text-weak: rgba(255, 255, 255, 0.80);
+        --text-hint: rgba(255, 255, 255, 0.65);
+        color: #ffffff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    }
+
+    /* New Message button */
+    .sidebar .button-large {
+        min-height: 44px;
+        color: var(--g-accent) !important;
+        background: rgba(255, 255, 255, 0.90) !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none;
+        transition: box-shadow 0.15s, background 0.15s;
+    }
+
+    .sidebar .button-large:hover {
+        color: #382685 !important;
+        background: #ffffff !important;
+        box-shadow:
+            0 1px 3px     rgba(60, 64, 67, 0.30),
+            0 4px 8px 3px rgba(60, 64, 67, 0.15) !important;
+    }
+
+
+    /* Collapse / expand toggle – grey to match read rows */
+    .sidebar-collapse-button {
+        background: rgba(110, 110, 110, 0.55) !important;
+        border-color: transparent !important;
+        color: var(--text-weak) !important;
+    }
+
+    .sidebar-collapse-button:hover,
+    .sidebar-collapse-button:focus-visible {
+        background: rgba(110, 110, 110, 0.75) !important;
+        color: var(--text-norm) !important;
+    }
+
+
+    /* =============================================================
+       10. TOP-RIGHT CONTROLS
+       Settings cog, account name / email and initials in white.
+       ============================================================= */
+
+    .topnav-list {
+        --text-norm:   #ffffff;
+        --text-weak:   rgba(255, 255, 255, 0.80);
+        --border-norm: rgba(255, 255, 255, 0.60);
+        color: #ffffff;
+    }
+
+    .topnav-list .drawer-sidebar-button,
+    .topnav-list .user-dropdown-button {
+        color: #ffffff;
+    }
+
+
+    /* =============================================================
+       11. OPENED EMAIL
+       Solid white reading panel.
+       ============================================================= */
+
+    .main-area-border:has([data-testid="message-content:body"]) > div:first-child {
+        background: #ffffff !important;
+        backdrop-filter: none;
+    }
+
+    .main-area-border:has([data-testid="message-content:body"])
+    [data-testid="message-content:body"] {
+        background: #ffffff !important;
+    }
+
+    /* Email content iframe */
+    html:has(> body > #proton-root),
+    html:has(> body > #proton-root) body {
+        background: #ffffff !important;
+        background-image: none !important;
+    }
+
+}
