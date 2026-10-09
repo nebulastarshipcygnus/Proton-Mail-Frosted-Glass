@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name         Proton Mail – Frosted Glass
 @namespace    protonmail.frostedglass
-@version      1.0.0
-@description  A softer look for Proton Mail: frosted inbox card, transparent sidebar with white text, rounded search bar, and an optional background photo.
+@version      1.0.2
+@description  A softer, modern look for Proton Mail: frosted inbox card, transparent sidebar with white text, rounded search bar, and an optional background photo.
 @author       Nebulastarshipcygnus
 @license      MIT
 ==/UserStyle== */
@@ -10,9 +10,9 @@
 @-moz-document domain("mail.proton.me") {
 
     /* =============================================================
-       PROTON MAIL – FROSTED SKIN
-       Main layout and colours. The background photo lives in its
-       own Stylus style ("Proton Mail – Background image").
+       PROTON MAIL – FROSTED GLASS
+       Main layout and colours. For a background photo, also
+       install "Proton Mail – Frosted Glass: Background Photo".
 
        Contents
          1.  Tokens
@@ -20,12 +20,13 @@
          3.  Proton theme variables
          4.  Layout shell
          5.  Inbox card
-         6.  Message rows
-         7.  Row checkboxes
-         8.  Search bar
-         9.  Sidebar
-         10. Top-right controls
-         11. Opened email
+         6.  Mailbox toolbar and folder heading
+         7.  Message rows
+         8.  Row checkboxes
+         9.  Search bar
+         10. Sidebar
+         11. Top-right controls
+         12. Opened email
        ============================================================= */
 
 
@@ -53,9 +54,8 @@
 
     /* =============================================================
        2. BACKGROUND
-       The photo comes from the separate "Proton Mail – Background
-       image" style as --g-bg-photo. If that style is off, the
-       photo layer is empty and the gradient underneath shows.
+       The photo comes from the Background Photo add-on as
+       --g-bg-photo. Without it, the gradient shows.
        ============================================================= */
 
     html,
@@ -145,7 +145,33 @@
 
 
     /* =============================================================
-       6. MESSAGE ROWS
+       6. MAILBOX TOOLBAR AND FOLDER HEADING
+       Back, unread, trash, archive, move, label, snooze … in white.
+       ============================================================= */
+
+    [data-shortcut-target="mailbox-toolbar"] {
+        --text-norm:   #ffffff;
+        --text-weak:   rgba(255, 255, 255, 0.85);
+        --border-norm: rgba(255, 255, 255, 0.40);
+    }
+
+    [data-shortcut-target="mailbox-toolbar"] .toolbar-button {
+        color: #ffffff !important;
+    }
+
+    /* Dividers between icon groups */
+    [data-shortcut-target="mailbox-toolbar"] .vr {
+        border-color: rgba(255, 255, 255, 0.40) !important;
+    }
+
+    /* Folder heading (Inbox, Sent, Archive …) */
+    .main-area-border h2.text-lg[title] {
+        color: #ffffff !important;
+    }
+
+
+    /* =============================================================
+       7. MESSAGE ROWS
        ============================================================= */
 
     .item-container,
@@ -172,7 +198,7 @@
 
 
     /* =============================================================
-       7. ROW CHECKBOXES
+       8. ROW CHECKBOXES
        Sender initials become a plain outline when idle.
        Hover, keyboard focus and checked states are left to Proton.
        ============================================================= */
@@ -188,7 +214,7 @@
 
 
     /* =============================================================
-       8. SEARCH BAR
+       9. SEARCH BAR
        ============================================================= */
 
     header .input {
@@ -212,10 +238,10 @@
 
 
     /* =============================================================
-       9. SIDEBAR
+       10. SIDEBAR
        ============================================================= */
 
-    /* White text for reading over the background image */
+    /* White text for reading over the background */
     .sidebar {
         --text-norm: #ffffff;
         --text-weak: rgba(255, 255, 255, 0.80);
@@ -243,8 +269,7 @@
             0 4px 8px 3px rgba(60, 64, 67, 0.15) !important;
     }
 
-
-    /* Collapse / expand toggle – grey to match read rows */
+    /* Collapse / expand toggle */
     .sidebar-collapse-button {
         background: rgba(110, 110, 110, 0.55) !important;
         border-color: transparent !important;
@@ -259,7 +284,7 @@
 
 
     /* =============================================================
-       10. TOP-RIGHT CONTROLS
+       11. TOP-RIGHT CONTROLS
        Settings cog, account name / email and initials in white.
        ============================================================= */
 
@@ -277,7 +302,7 @@
 
 
     /* =============================================================
-       11. OPENED EMAIL
+       12. OPENED EMAIL
        Solid white reading panel.
        ============================================================= */
 
